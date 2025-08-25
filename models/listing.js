@@ -9,8 +9,9 @@ const listingSchema = new Schema({
     description: String,
     image: {
         type: String,
-        set: (v) => v === "" ? "https://unsplash.com/photos/a-house-with-a-blue-front-door-and-a-brown-front-door-xaqsFfoEq3o" 
-        : v,
+        default: "https://unsplash.com/photos/a-house-with-a-blue-front-door-and-a-brown-front-door-xaqsFfoEq3o"
+        , set: (v) => v === "" ? "https://unsplash.com/photos/a-house-with-a-blue-front-door-and-a-brown-front-door-xaqsFfoEq3o"
+            : v,
     },
     price: Number,
     location: String,
@@ -18,4 +19,4 @@ const listingSchema = new Schema({
 })
 
 const Listing = mongoose.model("Listing", listingSchema);
-modules.export = Listing;
+modules.exports = Listing;
