@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js");
+const Listing = require("./models/listing.js");  // Capitalized model
 const path = require("path");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -32,31 +32,16 @@ app.get("/", (req, res) => {
     res.send("I'm root");
 });
 
+// index route
 app.get("/listing", async (req, res) => {
-    try {
-        const allListings = await Listing.find({});
-        res.render("listings/index", { allListings: allListings });
-    } catch (error) {
-        console.error("Error fetching listings:", error);
-        res.status(500).send("Error fetching listings.");
-    }
+    const allListings = await Listing.find({});
+    res.render("listings/index", { allListings });
 });
 
-app.listen(8080, () => {
-    console.log("server is listening to port 8080");
+// show route
+app.get("/listing/:id", async (req, res) => {
+    let { id } = req.params; // ✅ fixed
+    const foundListing = await Listing.findById(id);
+    res.render("listings/show", { listing: foundListing }); // ✅ send response
 });
 
-
-
-// app.get("/testListing", async (req, res) => {
-//     let sampleListing = new Listing({
-//         title: "my house",
-//         description: "by the suburbs",
-//         price: 12000,
-//         location: "goa",
-//         country: "india",
-//     })
-//     await sampleListing.save();
-//     console.log("sample saved");
-//     res.send("successful");
-// })

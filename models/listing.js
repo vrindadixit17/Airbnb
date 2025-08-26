@@ -9,14 +9,19 @@ const listingSchema = new Schema({
     description: String,
     image: {
         type: String,
-        default: "https://unsplash.com/photos/a-house-with-a-blue-front-door-and-a-brown-front-door-xaqsFfoEq3o"
-        , set: (v) => v === "" ? "https://unsplash.com/photos/a-house-with-a-blue-front-door-and-a-brown-front-door-xaqsFfoEq3o"
-            : v,
+        default: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
+        set: (v) =>
+            v === ""
+                ? "https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"
+                : v,
     },
-    price: Number,
+    price: {
+        type: Number,
+        min: 0,
+    },
     location: String,
     country: String,
-})
+});
 
 const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;
