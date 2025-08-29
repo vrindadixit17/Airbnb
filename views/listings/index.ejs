@@ -1,24 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
+const mongoose = require("mongoose");
+const initData = require("./data.js");
+const Listing = require("../models/listing.js");
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WanderLust</title>
-</head>
+const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
-<body>
-    <h3>All Listings</h3>
-    <form method="GET" action="/listings/new">
-        <button>Create New Listing</button>
-    </form>
-    <ul>
-        <% for(let listing of allListings) { %>
-            <li><a href="/listings/<%= listing._id %>">
-                    <%= listing.title %>
-                </a></li>
-            <% } %>
-    </ul>
-</body>
+main()
+.then(() => {
+console.log("connected to DB");
+})
+.catch((err) => {
+console.log(err);
+});
 
-</html>
+async function main() {
+await mongoose.connect(MONGO_URL);
+}
+
+const initDB = async () => {
+await Listing.deleteMany({});
+await Listing.insertMany(initData.data);
+console.log("data was initialized");
+};
+
+initDB();
